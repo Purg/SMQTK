@@ -165,6 +165,8 @@ class SMQTKSearchApp (flask.Flask):
                 "Image Search - Syria Instagram", self, ic_syria_instagram,
                 "Average", url_prefix="/image_syria_instagram_fusion"
             )
+            self.register_blueprint(self.mod_syria_instagram)
+            self.add_navigable_blueprint(self.mod_syria_instagram)
 
         #
         # Basic routing
