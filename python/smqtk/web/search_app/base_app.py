@@ -118,37 +118,53 @@ class SMQTKSearchApp (flask.Flask):
         #       multi-feature/indexer fusion system.
         from .modules.iqr import IQRSearch, IQRSearchFusion
 
-        with SimpleTimer("Loading Example Image ingest + IQR...", self.log.info):
-            ic_example_image = IngestConfiguration("example_image")
-            self.mod_example_image = IQRSearch(
-                "Image Search - Example Imagery",
-                self, ic_example_image,
-                "ColorDescriptor_Image_csift", "SVMIndexer_HIK",
-                url_prefix='/image_example'
-            )
-            self.register_blueprint(self.mod_example_image)
-            self.add_navigable_blueprint(self.mod_example_image)
+        #with SimpleTimer("Loading Example Image ingest + IQR...", self.log.info):
+        #    ic_example_image = IngestConfiguration("example_image")
+        #    self.mod_example_image = IQRSearch(
+        #        "Image Search - Example Imagery",
+        #        self, ic_example_image,
+        #        "ColorDescriptor_Image_csift", "SVMIndexer_HIK",
+        #        url_prefix='/image_example'
+        #    )
+        #    self.register_blueprint(self.mod_example_image)
+        #    self.add_navigable_blueprint(self.mod_example_image)
 
-        with SimpleTimer("Loading Example Image ingest + IQR Fusion", self.log.info):
-            self.mod_example_image_fusion = IQRSearchFusion(
-                "Image Search Fusion - Example Imagery",
-                self, ic_example_image,
-                "Average",
-                url_prefix='/image_example_fusion'
-            )
-            self.register_blueprint(self.mod_example_image_fusion)
-            self.add_navigable_blueprint(self.mod_example_image_fusion)
+        #with SimpleTimer("Loading Example Image ingest + IQR Fusion", self.log.info):
+        #    self.mod_example_image_fusion = IQRSearchFusion(
+        #        "Image Search Fusion - Example Imagery",
+        #        self, ic_example_image,
+        #        "Average",
+        #        url_prefix='/image_example_fusion'
+        #    )
+        #    self.register_blueprint(self.mod_example_image_fusion)
+        #    self.add_navigable_blueprint(self.mod_example_image_fusion)
 
-        with SimpleTimer("Loading Example Video ingest + IQR...", self.log.info):
-            ic_example_video = IngestConfiguration("example_video")
-            self.mod_example_video = IQRSearch(
-                "Video Search - Example Videos",
-                self, ic_example_video,
-                "ColorDescriptor_Video_csift", "SVMIndexer_HIK",
-                url_prefix='/video_example'
+        #with SimpleTimer("Loading Example Video ingest + IQR...", self.log.info):
+        #    ic_example_video = IngestConfiguration("example_video")
+        #    self.mod_example_video = IQRSearch(
+        #        "Video Search - Example Videos",
+        #        self, ic_example_video,
+        #        "ColorDescriptor_Video_csift", "SVMIndexer_HIK",
+        #        url_prefix='/video_example'
+        #    )
+        #    self.register_blueprint(self.mod_example_video)
+        #    self.add_navigable_blueprint(self.mod_example_video)
+
+        with SimpleTimer("Loading ATF reddit IQRSearchFusion...", self.log.info):
+            ic_atf_reddit = IngestConfiguration("atf_reddit")
+            self.mod_atf_reddit = IQRSearchFusion(
+                "Image Search - ATF Reddit", self, ic_atf_reddit,
+                "Average", url_prefix="/image_atf_reddit_fusion"
             )
-            self.register_blueprint(self.mod_example_video)
-            self.add_navigable_blueprint(self.mod_example_video)
+            self.register_blueprint(self.mod_atf_reddit)
+            self.add_navigable_blueprint(self.mod_atf_reddit)
+
+        with SimpleTimer("Loading Syria IQRSearchFusion...", self.log.info):
+            ic_syria_instagram = IngestConfiguration("syria_instagram")
+            self.mod_syria_instagram = IQRSearchFusion(
+                "Image Search - Syria Instagram", self, ic_syria_instagram,
+                "Average", url_prefix="/image_syria_instagram_fusion"
+            )
 
         #
         # Basic routing

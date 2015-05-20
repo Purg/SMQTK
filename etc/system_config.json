@@ -118,7 +118,122 @@
                         }
                     ]
                 }
+            },
+
+            "syria_instagram": {
+                "dir": "syria_instagram",
+                "type": "image",
+                "descriptors": {
+                    "dir": "FeatureDescriptors",
+                    "listing": {
+                        "ColorDescriptor_Image_csift": {
+                            "dir": "CSIFT"
+                        },
+                        "ColorDescriptor_Image_opponentsift": {
+                            "dir": "OpponentSIFT"
+                        },
+                        "ColorDescriptor_Image_rgsift": {
+                            "dir": "rgSIFT"
+                        }
+                    }
+                },
+                "indexers": {
+                    "dir": "Indexers",
+                    "listing": {
+                        "SVMIndexer_HIK": {
+                            "dir": "SVM_HIK"
+                        }
+                    }
+                },
+                "fusion": {
+                    "catalysts": {
+                        "dir": "Fusion/Catalysts",
+                        "listing": {
+                            "Average": {
+                                "dir": "Average"
+                            }
+                        }
+                    },
+                    "atoms": [
+                        {
+                            "descriptor": "ColorDescriptor_Image_csift",
+                            "indexers": [
+                                "SVMIndexer_HIK"
+                            ]
+                        },
+                        {
+                            "descriptor": "ColorDescriptor_Image_opponentsift",
+                            "indexers": [
+                                "SVMIndexer_HIK"
+                            ]
+                        },
+                        {
+                            "descriptor": "ColorDescriptor_Image_rgsift",
+                            "indexers": [
+                                "SVMIndexer_HIK"
+                            ]
+                        }
+                    ]
+                }
+            },
+
+            "atf_reddit": {
+                "dir": "atf_reddit",
+                "type": "image",
+                "descriptors": {
+                    "dir": "FeatureDescriptors",
+                    "listing": {
+                        "ColorDescriptor_Image_csift": {
+                            "dir": "CSIFT"
+                        },
+                        "ColorDescriptor_Image_opponentsift": {
+                            "dir": "OpponentSIFT"
+                        },
+                        "ColorDescriptor_Image_rgsift": {
+                            "dir": "rgSIFT"
+                        }
+                    }
+                },
+                "indexers": {
+                    "dir": "Indexers",
+                    "listing": {
+                        "SVMIndexer_HIK": {
+                            "dir": "SVM_HIK"
+                        }
+                    }
+                },
+                "fusion": {
+                    "catalysts": {
+                        "dir": "Fusion/Catalysts",
+                        "listing": {
+                            "Average": {
+                                "dir": "Average"
+                            }
+                        }
+                    },
+                    "atoms": [
+                        {
+                            "descriptor": "ColorDescriptor_Image_csift",
+                            "indexers": [
+                                "SVMIndexer_HIK"
+                            ]
+                        },
+                        {
+                            "descriptor": "ColorDescriptor_Image_opponentsift",
+                            "indexers": [
+                                "SVMIndexer_HIK"
+                            ]
+                        },
+                        {
+                            "descriptor": "ColorDescriptor_Image_rgsift",
+                            "indexers": [
+                                "SVMIndexer_HIK"
+                            ]
+                        }
+                    ]
+                }
             }
+
         }
     }
 }
