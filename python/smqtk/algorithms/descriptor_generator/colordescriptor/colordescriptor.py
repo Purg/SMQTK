@@ -490,6 +490,9 @@ class ColorDescriptor_Base (DescriptorGenerator):
         self._log.debug("Computing descriptors for data UID[%s]...",
                         data.uuid())
         info, descriptors = self._generate_descriptor_matrices({data})
+        # DEBUG: Getting access to low-level detections and descriptors
+        self.detections = info
+        self.descriptors = descriptors
 
         # Load FLANN components
         pyflann.set_distance_type(self._flann_distance_metric)
