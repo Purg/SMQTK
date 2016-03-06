@@ -211,7 +211,30 @@ class IqrSession (SmqtkObject):
             self.negative_descriptors.difference_update(un_negatives)
             self.negative_descriptors.difference_update(new_positives)
 
-    def update_working_index(self, nn_index):
+    def _refresh_rel_index(self):
+        #: :type: smqtk.algorithms.relevancy_index.RelevancyIndex
+        self.rel_index = plugin.from_plugin_config(self.rel_index_config,
+                                                   get_relevancy_index_impls())
+        self.rel_index.build_index(self.working_index.iterdescriptors())
+
+    def update_working_index(self, descriptor_elements):
+        """
+        Initialize or update our current working with the given iterable of
+        DescriptorElement instances.
+
+        :param descriptor_elements: Iterable of descriptor elements.
+        :type descriptor_elements:
+            collections.Iterable[smqtk.representation.DescriptorElement]
+
+        """
+        before_count = len(self.working_index)
+        self.working_index.add_many_descriptors(descriptor_elements)
+        if before_count != len(self.working_index):
+            self._log.info("Creating new relevancy index over updated working "
+                           "index.")
+            self._refresh_rel_index()
+
+    def update_working_index_nn(self, nn_index):
         """
         Initialize or update our current working index using the given
         :class:`.NearestNeighborsIndex` instance given our current positively
@@ -225,11 +248,14 @@ class IqrSession (SmqtkObject):
 
         :raises RuntimeError: There are no positive example descriptors in this
             session to use as a basis for querying.
+        :raises ValueError: The given neighbor index has no content indexed.
 
         """
         if len(self.positive_descriptors) <= 0:
             raise RuntimeError("No positive descriptors to query the neighbor "
                                "index with.")
+        elif not nn_index.count():
+            raise ValueError("Neighbor Index has no content indexed.")
 
         # Not clearing working index because this step is intended to be
         # additive.
@@ -248,10 +274,7 @@ class IqrSession (SmqtkObject):
         # Make new relevancy index
         if updated:
             self._log.info("Creating new relevancy index over working index.")
-            #: :type: smqtk.algorithms.relevancy_index.RelevancyIndex
-            self.rel_index = plugin.from_plugin_config(self.rel_index_config,
-                                                       get_relevancy_index_impls())
-            self.rel_index.build_index(self.working_index.iterdescriptors())
+            self._refresh_rel_index()
 
     def refine(self):
         """ Refine current model results based on current adjudication state

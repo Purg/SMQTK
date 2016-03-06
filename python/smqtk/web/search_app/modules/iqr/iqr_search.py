@@ -465,7 +465,7 @@ class IqrSearch (SmqtkObject, flask.Blueprint, Configurable):
             """
             with self.get_current_iqr_session() as iqrs:
                 try:
-                    iqrs.update_working_index(self._nn_index)
+                    iqrs.update_working_index_nn(self._nn_index)
                     return flask.jsonify({
                         "success": True,
                         "message": "Completed initialization",

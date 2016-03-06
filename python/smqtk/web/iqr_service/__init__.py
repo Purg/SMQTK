@@ -404,7 +404,7 @@ class IqrService (SmqtkWebApp):
                 iqrs.negative_descriptors = neg_descrs
                 msg = "[set adjudications]"
 
-                iqrs.update_working_index(self.neighbor_index)
+                iqrs.update_working_index_nn(self.neighbor_index)
                 msg += '[updated working index]'
 
                 iqrs.refine()
