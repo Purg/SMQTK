@@ -174,7 +174,10 @@ def fetch_cdr_query_images(q, output_dir, scan_record, cores=None,
 
     def try_download(uri):
         try:
-            r = requests.get(uri, auth=stored_http_auth)
+            a = None
+            if 'imagecat' in uri:
+                a = stored_http_auth
+            r = requests.get(uri, auth=a)
             if r.ok:
                 return True, r
         except Exception, ex:
@@ -375,8 +378,8 @@ def main():
             should be set to an empty list.
 
         stored_http_auth
-            This is only used for stored-data URLs and only if both a username
-            and password is given.
+            This is only used for stored-data imagecat URLs and only if both a
+            username and password is given.
 
         elastic_search
             batch_size
