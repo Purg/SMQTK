@@ -9,6 +9,7 @@ Kitware, Inc., 28 Corporate Drive, Clifton Park, NY 12065.
 
 import logging
 import operator as op
+import time
 
 
 class SmqtkObject (object):
@@ -82,6 +83,42 @@ def merge_dict(a, b):
             merge_dict(a[k], b[k])
         else:
             a[k] = b[k]
+
+
+def wait_until(fn, timeout, period=0.01, *args, **kwargs):
+    """
+    Wait until the given function ``fn`` returns a true-evaluating value or the
+    timeout expires.
+
+    ``fn`` is executed at least once even if timeout is 0.
+
+    Positional and keyword arguments after this function's defined ones are
+    passed to the function ``fn``.
+
+    This function may take longer than ``timeout`` seconds to complete if ``fn``
+    is a long running function. Ideally, this function is used with a ``fn``
+    that is short-running or is checking the value of a variable that is
+    externally modified. E.g. thread alive status, thread/process updated value,
+    etc.
+
+    :param fn: function to evaluate
+    :param timeout: The time to allow fn to return a true-evaluating value in
+        seconds.
+    :param period: The interval at which to check ``fn``
+
+    :return: True if ``fn`` returned a true-evaluating value before the time-out
+        period. False otherwise.
+
+    """
+    if timeout < 0:
+        raise ValueError("Timeout must be >0.")
+    e = time.time() + timeout
+    while True:
+        r = fn(*args, **kwargs)
+        if bool(r):
+            return r
+        elif time.time() >= e:
+            return False
 
 
 ###
